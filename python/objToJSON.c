@@ -870,7 +870,11 @@ PyObject* objToJSON(PyObject* self, PyObject *args, PyObject *kwargs)
     return NULL;
   }
 
-  newobj = PyString_FromString (ret);
+  // if not forcing ASCII, go ahead and output a Unicode object
+  if (encoder.forceASCII)
+    newobj = PyString_FromString (ret);
+  else
+    newobj = PyUnicode_FromString (ret); 
 
   if (ret != buffer)
   {
